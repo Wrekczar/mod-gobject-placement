@@ -1,0 +1,16 @@
+-- mod-gobject-placement: manual rollback. Never applied automatically. Read before running.
+--
+-- Part 1 - world database (help text only):
+--   DELETE FROM `command` WHERE `name` IN ('gobject pitch', 'gobject roll', 'gobject save');
+--   DELETE FROM `updates` WHERE `name` = '2026_10_28_00_gobject_placement_commands.sql';
+--
+-- Part 2 - characters database. This DROPS every saved placement. Export or dump them first:
+--   mysqldump <characters db> gobject_placement_verified gobject_placement_history gobject_placement_baseline
+--
+--   DROP TABLE IF EXISTS `gobject_placement_verified`;
+--   DROP TABLE IF EXISTS `gobject_placement_history`;
+--   DROP TABLE IF EXISTS `gobject_placement_baseline`;
+--   DELETE FROM `updates` WHERE `name` = '2026_10_28_00_gobject_placement.sql';
+--
+-- Rotations already written to world `gameobject` rows by `.gobject pitch/roll` are not undone by this
+-- file. Each touched spawn's original placement is in gobject_placement_baseline; see README "Rollback".
